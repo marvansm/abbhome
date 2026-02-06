@@ -60,7 +60,7 @@ export default function HeroCarousel() {
         <ChevronRight />
       </button>
 
-      <div className="absolute left-1/2 -bottom-10 -translate-x-1/2 bg-white rounded-2xl shadow-xl px-10 py-6 flex items-center gap-10 ">
+      <div className="absolute left-1/2 -bottom-10 -translate-x-1/2 bg-white rounded-2xl shadow-xl px-10 py-6 flex items-center gap-10  w-full max-w-[1200px] mx-auto">
         <Stat title="200,000 AZN" desc="Maksimal məbləğ" />
         <Stat title="12%-dən" desc="Minimal illik faiz" />
         <Stat title="15 ilədək" desc="Maksimal müddət" />
