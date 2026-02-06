@@ -1,9 +1,12 @@
 import Image from "next/image";
+import HeroCarousel from "./components/HeroCarousel";
+import MortgageProducts from "./components/MortgageProducts";
 
 export default function Home() {
   return (
-  <div>
-    
-  </div>
+    <div>
+      <HeroCarousel />
+      <MortgageProducts />
+    </div>
   );
 }

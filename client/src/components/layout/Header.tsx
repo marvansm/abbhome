@@ -1,4 +1,4 @@
-import { ChevronDown, House } from "lucide-react";
+import { ChevronDown, Headphones, House, User } from "lucide-react";
 
 export default function Header() {
   return (
@@ -42,7 +42,7 @@ export default function Header() {
               ></path>
             </svg>
           </div>
-          <button className="flex items-center justify-center py-[10px] px-[12px] border border-[#E2E8F0] outline-0 gap-2 rounded-[5px] text-[14px] font-medium leading-[20px] bg-white hover:bg-[#F5F5F5] duration-200 cursor-pointer">
+          <button className="flex items-center font-sans justify-center py-[10px] px-[12px] border border-[#E2E8F0] outline-0 gap-2 rounded-[5px] text-[14px] font-medium leading-[20px] bg-white hover:bg-[#F5F5F5] duration-200 cursor-pointer">
             <House
               className="w-[20px] h-[20px]"
               fill="#3B8DD4"
@@ -50,8 +50,45 @@ export default function Header() {
             />{" "}
             ipoteka məhsulları <ChevronDown className="w-[20px] h-[20px]" />
           </button>
+          <h2 className="font-medium font-sans text-[14px] leading-[20px] text-[#0D0D19] py-[0.75rem] min-w-[2.5rem] h-[42px] hover:text-blue-400 duration-200 cursor-pointer ">
+            Əmlakınızı qiymətləndirin
+          </h2>
         </div>
-        <div></div>
+        <div className="flex items-center gap-2">
+          <button
+            className="
+            hover:bg-gray-200 cursor-pointer 
+    inline-flex
+    items-center
+    justify-center
+    select-none
+    relative
+    whitespace-nowrap
+    align-middle
+    outline-none
+    outline-2
+    outline-transparent
+    outline-offset-2
+    leading-6
+    rounded-[12px]
+    font-medium
+    transition
+    duration-200
+    h-10
+    min-w-10
+    text-[16px]
+    px-4
+    gap-2
+    bg-gray-100
+  "
+          >
+            <Headphones size={20} color="#525457" />
+          </button>
+          <button className="flex items-center font-sans justify-center py-[10px] px-[12px] border border-[#E2E8F0] outline-0 gap-2 rounded-[15px] text-[14px] font-medium leading-[20px] bg-white hover:bg-[#F5F5F5] duration-200 cursor-pointer">
+            <User size={20} fill="#525457" color="#525457" />
+            ipoteka kabineti
+          </button>
+        </div>
       </div>
     </div>
   );
