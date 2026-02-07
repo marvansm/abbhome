@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import MainLayout from "@/components/layout/MainLayout";
-import TanstackQueryProvider from "@/providers/TanstackQueryProvider";
 import { LoadingProvider } from "@/providers/LoadingProvider";
+import TanstackQueryProvider from "@/providers/TanstackQueryProvider";
 
 const interSans = Inter({
   variable: "--font-inter-sans",

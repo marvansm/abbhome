@@ -1,24 +1,40 @@
 "use client";
 
+import { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-
-const slides = [
-  {
-    title: "Ev tikinti ipoteka krediti",
-    desc: "Fərdi layihəniz ilə evə sahib olun – Tikinti ipoteka krediti ilə istədiyiniz evi tikin!",
-    image: "/helmet.png",
-  },
-  {
-    title: "Təmir krediti",
-    desc: "Evinizi yeniləyin, rahatlıq yaradın",
-    image: "/tools.png",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import api from "@/services/api";
+import { HeroSlide } from "@/types";
 
 export default function HeroCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const { data: slides = [], isLoading } = useQuery<HeroSlide[]>({
+    queryKey: ["hero-slides"],
+    queryFn: () => api.getData("/hero-slides"),
+  });
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+  }, [emblaApi, onSelect]);
+
+  if (isLoading)
+    return (
+      <div className="h-[500px] flex items-center justify-center">
+        Loading...
+      </div>
+    );
 
   return (
     <div className="relative max-w-[1344px] mx-auto ">
@@ -26,17 +42,18 @@ export default function HeroCarousel() {
         <div className="flex">
           {slides.map((slide, i) => (
             <div
-              key={i}
-              className="min-w-full bg-[#8B6BD6] px-16 py-20 flex justify-between items-center"
+              key={slide._id || i}
+              className="min-w-full px-16 py-20 flex justify-between items-center transition-colors duration-300"
+              style={{ backgroundColor: slide.bgColor || "#8B6BD6" }}
             >
               <div className="max-w-xl text-white">
                 <h1 className="text-4xl font-semibold mb-4">{slide.title}</h1>
-                <p className="text-base opacity-90">{slide.desc}</p>
+                <p className="text-base opacity-90">{slide.description}</p>
               </div>
 
               <Image
                 src={slide.image}
-                alt=""
+                alt={slide.title}
                 width={360}
                 height={360}
                 className="object-contain"
@@ -59,20 +76,41 @@ export default function HeroCarousel() {
       >
         <ChevronRight />
       </button>
+      {slides[selectedIndex]?.maxAmount && (
+        <div className="absolute left-1/2 -bottom-10 -translate-x-1/2 bg-white rounded-2xl shadow-xl px-10 py-6 flex items-center gap-10  w-full max-w-[1200px] mx-auto">
+          {slides[selectedIndex]?.maxAmount && (
+            <Stat
+              title={`${slides[selectedIndex].maxAmount.toLocaleString()} AZN`}
+              desc="Maksimal məbləğ"
+            />
+          )}
+          {slides[selectedIndex]?.minInterestRate && (
+            <Stat
+              title={`${slides[selectedIndex].minInterestRate}%-dən`}
+              desc="Minimal illik faiz"
+            />
+          )}
+          {slides[selectedIndex]?.maxTerm && (
+            <Stat
+              title={`${slides[selectedIndex].maxTerm} ilədək`}
+              desc="Maksimal müddət"
+            />
+          )}
+          {slides[selectedIndex]?.minDownPayment && (
+            <Stat
+              title={`${slides[selectedIndex].minDownPayment}%`}
+              desc="Minimal ilkin ödəniş"
+            />
+          )}
 
-      <div className="absolute left-1/2 -bottom-10 -translate-x-1/2 bg-white rounded-2xl shadow-xl px-10 py-6 flex items-center gap-10  w-full max-w-[1200px] mx-auto">
-        <Stat title="200,000 AZN" desc="Maksimal məbləğ" />
-        <Stat title="12%-dən" desc="Minimal illik faiz" />
-        <Stat title="15 ilədək" desc="Maksimal müddət" />
-        <Stat title="15%" desc="Minimal ilkin ödəniş" />
-
-        <button className="bg-blue-600 text-white px-6 py-3 rounded-xl">
-          Müraciət edin
-        </button>
-        <button className="bg-gray-100 px-6 py-3 rounded-xl">
-          Daha ətraflı
-        </button>
-      </div>
+          <button className="bg-blue-600 text-white px-6 py-3 rounded-xl">
+            Müraciət edin
+          </button>
+          <button className="bg-gray-100 px-6 py-3 rounded-xl">
+            Daha ətraflı
+          </button>
+        </div>
+      )}
     </div>
   );
 }

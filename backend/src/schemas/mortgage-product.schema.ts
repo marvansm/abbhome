@@ -19,8 +19,10 @@ export class MortgageProduct {
   maxTerm: number;
   @Prop()
   minDownPayment: number;
-  @Prop({ type: Types.ObjectId, ref: 'Category' })
-  category: Types.ObjectId;
+  @Prop({ type: Types.ObjectId, ref: 'Category', required: false })
+  category?: Types.ObjectId;
+  @Prop()
+  bgColor: string;
 }
 
 export const MortgageProductSchema =
